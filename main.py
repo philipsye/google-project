@@ -4,6 +4,7 @@ import input_processing
 import os
 import sys
 import ID_sentence
+import linecache
 
 ID = 0
 ID_sentences = list()
@@ -20,38 +21,38 @@ def insert_data(root, file_name):
             ID_sentences.append(ID_sentence.ID_sentence(file_name, cnt))
             sentence =  line.strip()
             for i in range(len(sentence)):
-                root.insert(input_processing.clearing_the_sentence(sentence), i, ID)
-            
+                root.insert(input_processing.clearing_the_sentence(sentence), i, ID)          
             ID += 1
-            #print("Line {}: {}".format(cnt, line.strip()))
             line = fp.readline()
             cnt += 1
 
 
-
 def main(): 
-
     t = trie.Trie() 
-#   for setence in setences2: 
-#       for i in range(len(setence)):
-#           t.insert(input_processing.clearing_the_sentence(setence), i)
-#
-#   t1 = time.time()
-#   URL = t.search(input_processing.clearing_the_sentence("go"))
-#   for url in URL:
-#       if url:
-#           print(url)
-#   print(time.time()-t1)
 
-#    insert_data(t, "perl-all-en-5.8.5.txt")
-    insert_data(t, "abstract.txt")
-    insert_data(t, "allocation.txt")
-    insert_data(t, "apiabiversion.txt")
-    insert_data(t, "arg.txt")
-    insert_data(t, "bool.txt")
-    insert_data(t, "buffer.txt")
-    insert_data(t, "bytearray.txt")
-    insert_data(t, "bytes.txt")
+    for file in os.listdir("c-api"):
+        if file.endswith(".txt"):
+            insert_data(t, os.path.join("c-api", file))
+    input_user = ""
+    
+    while input_user != "stop":
+        print("your input --->", end=' ')
+        input_user = input()
+        t1 = time.time()
+        URL = t.search(input_processing.clearing_the_sentence(input_user))
+        i = 0
+        if URL:
+            for url in URL:
+                i += 1
+                if url:
+                    line = linecache.getline((ID_sentences[url]).routing, (ID_sentences[url]).line)
+                    print("----------------------------")
+                    print("Sentence routing is: " + (ID_sentences[url]).routing)
+                    print("Line of sentence is: " + str((ID_sentences[url]).line))
+                    print("[" + str(i) + "] " + line)
+                
+        print(time.time()-t1)
 
+    
 if __name__ == '__main__': 
     main() 
