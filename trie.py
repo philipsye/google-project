@@ -7,6 +7,7 @@ class TrieNode:
         self.children = [None]*69
         self.isEndOfWord = False
         self.URL = set()
+        self.pre_URL = set()
   
 class Trie: 
       
@@ -23,8 +24,14 @@ class Trie:
             if not pCrawl.children[chars[level]]: 
                 pCrawl.children[chars[level]] = self.getNode() 
             pCrawl = pCrawl.children[chars[level]]
-            if len(pCrawl.URL) < 5:
+            if index == 0 and len(pCrawl.pre_URL) < 5:
+                pCrawl.pre_URL.add(ID)
+                if pCrawl.URL:
+                    pCrawl.URL.pop()
+
+            elif len(pCrawl.URL) + len(pCrawl.pre_URL) < 5:
                 pCrawl.URL.add(ID)
+
         pCrawl.isEndOfWord = True
   
     def search(self, sentence): 
@@ -35,7 +42,7 @@ def rec_search(node, sentence, flag, index):
     res = set()
     
     if index == len(sentence):
-        return node.URL
+        return (node.pre_URL).union(node.URL)
     next_node = node.children[chars[sentence[index]]]
      
     if next_node:
