@@ -9,6 +9,7 @@ class TrieNode:
         self.URL = set()
         self.pre_URL = set()
   
+
 class Trie: 
       
     def __init__(self): 
@@ -20,12 +21,16 @@ class Trie:
     def insert(self,sentence, index, ID): 
 
         pCrawl = self.root
+
         for level in sentence[index:]: 
+
             if not pCrawl.children[chars[level]]: 
                 pCrawl.children[chars[level]] = self.getNode() 
             pCrawl = pCrawl.children[chars[level]]
+
             if index == 0 and len(pCrawl.pre_URL) < 5:
                 pCrawl.pre_URL.add(ID)
+
                 if pCrawl.URL:
                     pCrawl.URL.pop()
 
@@ -47,27 +52,33 @@ def rec_search(node, sentence, flag, index):
      
     if next_node:
         new_res = rec_search(next_node,sentence ,flag , index+1)
+
         if new_res:
+
             if len(new_res) + len(res) > 5:
                 res = res.union(set(list(new_res)[:5 - len(new_res)]))
+
             else:
                 res = res.union(new_res)
+
         if 5 == len(res):
             return res
 
     if not flag:
 
         for char in chars.keys():
+
             if char != sentence[index]:
-     
                 new_sentence = sentence[:index] +  char + sentence[index+1:]
                 new_res = rec_search(node,new_sentence, True, index)
+                
                 if new_res:
-                    if new_res:
-                        if len(new_res) + len(res) > 5:
-                            res = res.union(set(list(new_res)[:5 - len(new_res)]))
-                        else:
-                            res = res.union(new_res)
+                    
+                    if len(new_res) + len(res) > 5:
+                        res = res.union(set(list(new_res)[:5 - len(new_res)]))
+                    
+                    else:
+                        res = res.union(new_res)
             
                 if 5 == len(res):
                     return res

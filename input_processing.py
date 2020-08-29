@@ -1,5 +1,6 @@
 import chars_data
 
+
 def clearing_the_sentence(sentence):
     sentence = sentence.lower()
     sentence = sentence.replace(',', '')
@@ -15,12 +16,17 @@ def clearing_the_sentence(sentence):
             count += num
 
         elif sentence[i-count] == ' ':
+
             if flag:
                 sentence = sentence[:i-count]+sentence[i-count+1:]
                 count += 1
             flag = True
+
         else:
             flag = False
+
+    if sentence == "":
+        return sentence
 
     if sentence[0] == ' ':
         sentence = sentence[1:]

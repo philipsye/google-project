@@ -9,6 +9,7 @@ import linecache
 ID = 0
 ID_sentences = list()
 
+
 def insert_data(root, file_name):
     global ID
 
@@ -20,6 +21,7 @@ def insert_data(root, file_name):
             print(cnt)
             ID_sentences.append(ID_sentence.ID_sentence(file_name, cnt))
             sentence =  line.strip()
+
             for i in range(len(sentence)):
                 root.insert(input_processing.clearing_the_sentence(sentence), i, ID)          
             ID += 1
@@ -28,30 +30,51 @@ def insert_data(root, file_name):
 
 
 def main(): 
+    pre_input = ""
     t = trie.Trie() 
 
     for file in os.listdir("c-api"):
+
         if file.endswith(".txt"):
             insert_data(t, os.path.join("c-api", file))
     input_user = ""
     
-    while input_user != "stop":
-        print("your input --->", end=' ')
+    while input_user != "stop":   
+        print("\n***\nyour input --->", end=' ')
         input_user = input()
-        t1 = time.time()
-        URL = t.search(input_processing.clearing_the_sentence(input_user))
-        i = 0
-        if URL:
-            for url in URL:
-                i += 1
-                if url:
-                    line = linecache.getline((ID_sentences[url]).routing, (ID_sentences[url]).line)
-                    print("----------------------------")
-                    print("Sentence routing is: " + (ID_sentences[url]).routing)
-                    print("Line of sentence is: " + str((ID_sentences[url]).line))
-                    print("[" + str(i) + "] " + line)
-                
-        print(time.time()-t1)
+        pre_input = ""
+        while input_user != "#":
+            
+            pre_input += input_user
+        
+        
+            input_user = pre_input
+        
+            t1 = time.time()
+            URL = t.search(input_processing.clearing_the_sentence(input_user))
+            i = 0
+
+            if URL:
+
+                for url in URL:
+                    i += 1
+
+                    if url:
+                        line = linecache.getline((ID_sentences[url]).routing, (ID_sentences[url]).line)
+                        print("----------------------------")
+                        print("Sentence routing is: " + (ID_sentences[url]).routing)
+                        print("Line of sentence is: " + str((ID_sentences[url]).line))
+                        print("[" + str(i) + "] " + line)
+                    
+            print(time.time()-t1)
+
+            print(input_user, end="")
+
+            
+            input_user = input()
+
+        
+
 
     
 if __name__ == '__main__': 
