@@ -43,13 +43,10 @@ def main():
         print("\n***\nyour input --->", end=' ')
         input_user = input()
         pre_input = ""
-        while input_user != "#":
-            
-            pre_input += input_user
         
-        
+        while input_user != "#":           
+            pre_input += input_user        
             input_user = pre_input
-        
             t1 = time.time()
             URL = t.search(input_processing.clearing_the_sentence(input_user))
             i = 0
@@ -65,16 +62,10 @@ def main():
                         print("Sentence routing is: " + (ID_sentences[url]).routing)
                         print("Line of sentence is: " + str((ID_sentences[url]).line))
                         print("[" + str(i) + "] " + line)
-                    
+
             print(time.time()-t1)
-
             print(input_user, end="")
-
-            
             input_user = input()
-
-        
-
 
     
 if __name__ == '__main__': 
